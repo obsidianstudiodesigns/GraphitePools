@@ -14,15 +14,52 @@ let scene = null;
 let shot = 'hero';
 let activeEl = null;
 
-import('./scene.js?v=2').then(({ initPoolScene }) => {
+// ----- loading screen: a small pool that fills as the 3D scene's files arrive -----
+const loader = document.getElementById('loader');
+const loaderPct = loader.querySelector('.loader-pct');
+let shownP = 0, targetP = 0.04, loaderDone = false;
+const setTarget = (p) => { targetP = Math.max(targetP, Math.min(1, p)); };
+// before the scene's own files start, creep up while the 3D library downloads
+const creep = setInterval(() => setTarget(targetP + (0.14 - targetP) * 0.08), 120);
+(function fillLoop() {
+  if (loaderDone && shownP >= 0.999) return;
+  shownP += (targetP - shownP) * (reducedMotion ? 1 : 0.09);
+  if (targetP - shownP < 0.002) shownP = targetP;
+  loader.style.setProperty('--fill', shownP.toFixed(4));
+  loaderPct.textContent = `${Math.round(shownP * 100)}%`;
+  requestAnimationFrame(fillLoop);
+})();
+function finishLoading() {
+  if (loaderDone) return;
+  loaderDone = true;
+  clearInterval(creep);
+  setTarget(1);
+  // let the water reach the top, then lift the screen away
+  setTimeout(() => {
+    loader.classList.add('is-done');
+    document.documentElement.classList.remove('is-loading');
+    loader.addEventListener('transitionend', () => loader.remove(), { once: true });
+    setTimeout(() => loader.remove(), 1600);
+  }, reducedMotion ? 0 : 650);
+}
+// never hold the page hostage: give up waiting after 12 seconds
+setTimeout(finishLoading, 12000);
+
+import('./scene.js?v=3').then(({ initPoolScene }) => {
   try {
-    scene = initPoolScene(stageEl, { reducedMotion });
+    scene = initPoolScene(stageEl, {
+      reducedMotion,
+      onProgress: (p) => setTarget(0.14 + p * 0.82),
+      // wait for two frames so the first rendered image is on screen before the reveal
+      onReady: () => requestAnimationFrame(() => requestAnimationFrame(finishLoading)),
+    });
     scene.setShot(shot);
     if (location.hash === '#debug') window.__pool = scene;
   } catch (err) {
     console.warn('3D scene unavailable, showing the photo instead', err);
+    finishLoading();
   }
-}).catch((err) => console.warn('3D scene failed to load', err));
+}).catch((err) => { console.warn('3D scene failed to load', err); finishLoading(); });
 
 const activate = (el) => {
   if (el === activeEl) return;

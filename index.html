@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en-ZA">
+<html lang="en-ZA" class="is-loading">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -31,7 +31,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=2">
+  <link rel="stylesheet" href="css/styles.css?v=3">
+  <noscript><style>.loader { display: none; } html.is-loading { overflow: auto; }</style></noscript>
   <link rel="preload" as="image" href="assets/work/new-pool-grey-paving.jpg">
   <script type="importmap">
     {
@@ -71,6 +72,20 @@
   </script>
 </head>
 <body>
+  <div class="loader" id="loader" role="status" aria-live="polite" aria-label="Loading the site">
+    <div class="loader-inner">
+      <img class="loader-logo" src="assets/brand/logo.png" alt="Graphite Pools Construction Company" width="1272" height="915">
+      <div class="loader-pool" aria-hidden="true">
+        <div class="loader-water">
+          <svg class="wave wave-back" viewBox="0 0 400 20" preserveAspectRatio="none"><path d="M0 10 Q25 2 50 10 T100 10 T150 10 T200 10 T250 10 T300 10 T350 10 T400 10 V20 H0 Z"/></svg>
+          <svg class="wave wave-front" viewBox="0 0 400 20" preserveAspectRatio="none"><path d="M0 10 Q25 18 50 10 T100 10 T150 10 T200 10 T250 10 T300 10 T350 10 T400 10 V20 H0 Z"/></svg>
+        </div>
+      </div>
+      <p class="loader-text">Filling the pool <span class="loader-pct">0%</span></p>
+    </div>
+  </div>
+  <!-- if the scripts never run, don't leave the loader up -->
+  <script>setTimeout(function () { document.documentElement.classList.remove('is-loading'); var l = document.getElementById('loader'); if (l) l.remove(); }, 15000);</script>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
@@ -394,6 +409,6 @@
     <button class="lb-btn lb-close" type="button" aria-label="Close">×</button>
   </dialog>
 
-  <script type="module" src="js/main.js?v=2"></script>
+  <script type="module" src="js/main.js?v=3"></script>
 </body>
 </html>

@@ -327,3 +327,47 @@ p { margin: 0; }
   .service-list p { grid-row: auto; }
   .lb-prev, .lb-next { top: auto; bottom: 20px; transform: none; }
 }
+
+/* ---------- loading screen: a pool that fills as the 3D scene loads ---------- */
+html.is-loading { overflow: hidden; }
+.loader {
+  --fill: 0;
+  position: fixed; inset: 0; z-index: 200; display: grid; place-items: center;
+  background: radial-gradient(120% 90% at 50% 40%, #323840 0%, var(--graphite-deep) 70%);
+  transition: transform .9s cubic-bezier(.76, 0, .24, 1);
+}
+.loader::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--pool) 20%, var(--shallow) 50%, var(--pool) 80%, transparent);
+}
+.loader-inner { display: grid; justify-items: center; gap: 30px; padding: 24px; transition: opacity .35s ease, transform .6s ease; }
+.loader-logo { width: min(210px, 52vw); height: auto; }
+.loader-pool {
+  position: relative; width: 236px; height: 112px; overflow: hidden; border-radius: 3px;
+  background: linear-gradient(180deg, #3d434a, #4b5159);
+  border: 9px solid #1c1f23;
+  box-shadow: 0 0 0 7px #8f9391, 0 0 0 8px rgba(0, 0, 0, .25), inset 0 10px 18px rgba(0, 0, 0, .45);
+}
+.loader-water {
+  position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--fill) * 100%);
+  background:
+    radial-gradient(18px 6px at 20% 40%, rgba(255, 255, 255, .22), transparent 70%),
+    radial-gradient(22px 7px at 70% 65%, rgba(255, 255, 255, .18), transparent 70%),
+    linear-gradient(180deg, #48b9f4 0%, #1b8ce4 55%, #0f66b0 100%);
+  background-size: 90px 46px, 120px 58px, 100% 100%;
+  animation: shimmer 5s linear infinite;
+}
+.wave { position: absolute; left: 0; bottom: 100%; width: 200%; height: 9px; margin-bottom: -1px; animation: wave 2.6s linear infinite; }
+.wave path { fill: #48b9f4; }
+.wave-back { animation-duration: 3.8s; animation-direction: reverse; opacity: .55; }
+.loader-text { font-weight: 600; font-size: .98rem; color: var(--chalk-soft); }
+.loader-pct { display: inline-block; min-width: 3.2ch; color: var(--chalk); font-weight: 800; font-stretch: 125%; font-variant-numeric: tabular-nums; }
+@keyframes wave { to { transform: translateX(-50%); } }
+@keyframes shimmer { to { background-position: 90px 46px, -120px 58px, 0 0; } }
+.loader.is-done { transform: translateY(-100%); }
+.loader.is-done .loader-inner { opacity: 0; transform: translateY(-24px); }
+@media (prefers-reduced-motion: reduce) {
+  .wave, .loader-water { animation: none; }
+  .loader { transition: opacity .3s ease; }
+  .loader.is-done { transform: none; opacity: 0; }
+}

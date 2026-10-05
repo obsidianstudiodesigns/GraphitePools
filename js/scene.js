@@ -314,7 +314,7 @@ function worldMappedTiles(mat, metresPerRepeat) {
 
 // ---------------------------------------------------------------- scene
 
-export function initPoolScene(container, { reducedMotion = false, onReady } = {}) {
+export function initPoolScene(container, { reducedMotion = false, onReady, onProgress } = {}) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
   const maxDpr = Math.min(window.devicePixelRatio, 1.6);
   let dpr = maxDpr;
@@ -330,7 +330,10 @@ export function initPoolScene(container, { reducedMotion = false, onReady } = {}
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(38, 1, 0.05, 400);
 
-  const manager = new THREE.LoadingManager(() => { container.classList.add('is-ready'); onReady?.(); });
+  const manager = new THREE.LoadingManager(
+    () => { container.classList.add('is-ready'); onReady?.(); },
+    (url, loaded, total) => onProgress?.(loaded / total),
+  );
   const texLoader = new THREE.TextureLoader(manager);
   const aniso = Math.min(8, renderer.capabilities.getMaxAnisotropy());
   const tex = (file, { srgb = false, repeat = 1 } = {}) => {
