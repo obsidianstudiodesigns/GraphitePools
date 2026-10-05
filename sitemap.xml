@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://obsidianstudiodesigns.github.io/GraphitePools/</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image><image:loc>https://obsidianstudiodesigns.github.io/GraphitePools/assets/work/new-pool-grey-paving.jpg</image:loc></image:image>
+    <image:image><image:loc>https://obsidianstudiodesigns.github.io/GraphitePools/assets/work/reno-after-finished.jpg</image:loc></image:image>
+    <image:image><image:loc>https://obsidianstudiodesigns.github.io/GraphitePools/assets/work/kidney-pool-renovation.jpg</image:loc></image:image>
+    <image:image><image:loc>https://obsidianstudiodesigns.github.io/GraphitePools/assets/work/build-coping-tile-band.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obsidianstudiodesigns.github.io/GraphitePools/privacy.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://obsidianstudiodesigns.github.io/GraphitePools/terms.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+</urlset>
